@@ -1,21 +1,41 @@
 <script>
 	import ListInvoice from './ListInvoice.svelte';
+	const taza = 35;
 	const amount = 25
-	let amountPrint = `${amount} $`;
-	const dolares = () => {
-		amountPrint = `${amount} $`;
-	} 
-	const cordoba = () => {
-		amountPrint = `${amount * 35} c$`;
-	}
 	const listInvoice = {
 		titleList : 'Invoice',
 		listItem : [
-			{ value : 'item 1'},
-			{ value : 'item 2'},
-			{ value : 'item 3'}
+			{
+				value : 'enacal',
+				amount : 25
+			},
+			{
+				value : 'union fenoza',
+				amount : 18
+			},
+			{
+				value : 'union fenoza',
+				amount : 22
+			},
+			{
+				value : 'enacal',
+				amount : 34
+			},
 		]
 	}
+	const total = amount - (listInvoice.listItem.reduce((acc, cur) => ({amount: acc.amount + cur.amount})).amount);
+	console.log(total);
+	let amountPrint = `${amount} $`;
+	let totalPrint = `${total} $`;
+	const dolares = () => {
+		amountPrint = `${amount} $`;
+		totalPrint = `${total} $`;
+	} 
+	const cordoba = () => {
+		amountPrint = `${amount * taza} c$`;
+		totalPrint = `${total * taza} $`;
+	}
+	
 	let toggle = false;
 	const togglelist = () => {
 		toggle = !toggle;
@@ -24,10 +44,13 @@
 
 <main>
 	<h1>{amountPrint}</h1>
-	<button on:click={cordoba}>cordoba</button>
-	<button on:click={dolares}>dolares</button>
-	<button on:click={togglelist}>open invoice</button>
-	<ListInvoice {...listInvoice}, open = {toggle}/>
+	<p> su balance es de {totalPrint}</p>
+	<button class='btn btn-light' on:click={cordoba}>cordoba</button>
+	<button class='btn btn-light' on:click={dolares}>dolares</button>
+	<button class='btn btn-primary'on:click={togglelist}>open invoice</button>
+	{#if toggle}
+	<ListInvoice {...listInvoice}/>
+	{/if}
 </main>
 
 <style>
