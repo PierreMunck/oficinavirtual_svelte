@@ -1,0 +1,30 @@
+{
+    "2548f40a-86fc-11eb-8dcd-0242ac130003" : {
+        "user": [
+            {
+                "name": "pierre",
+                "id": "2548f40a-86fc-11eb-8dcd-0242ac130003",
+                "type": "premium"
+            }
+        ],
+        "invoices": [
+            {
+                "value" : "enacal",
+                "amount" : 55
+            },
+            {
+                "value" : "union fenoza",
+                "amount" : 18
+            },
+            {
+                "value" : "union fenoza",
+                "amount" : 22
+            },
+            {
+                "value" : "enacal",
+                "amount" : 34
+            }
+        ]
+    }
+    
+} 

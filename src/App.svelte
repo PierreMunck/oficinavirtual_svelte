@@ -1,29 +1,14 @@
 <script>
 	import ListInvoice from './ListInvoice.svelte';
+	import axios from 'axios';
 	const taza = 35;
 	const amount = 25
-	const listInvoice = {
+	let listInvoice = {
 		titleList : 'Invoice',
-		listItem : [
-			{
-				value : 'enacal',
-				amount : 25
-			},
-			{
-				value : 'union fenoza',
-				amount : 18
-			},
-			{
-				value : 'union fenoza',
-				amount : 22
-			},
-			{
-				value : 'enacal',
-				amount : 34
-			},
-		]
-	}
-	const total = amount - (listInvoice.listItem.reduce((acc, cur) => ({amount: acc.amount + cur.amount})).amount);
+		listItem : []
+	};
+	console.log(listInvoice);
+	const total = amount - (listInvoice.listItem.reduce((acc, cur) => ({amount: acc.amount + cur.amount}),{"amount" : 0}).amount);
 	console.log(total);
 	let amountPrint = `${amount} $`;
 	let totalPrint = `${total} $`;
@@ -36,9 +21,28 @@
 		totalPrint = `${total * taza} $`;
 	}
 	
+	$: getInvoices();
+
+	const getInvoices = () => {
+		axios.get(`https://oficinavirtual-munck.firebaseio.com/invoices/2548f40a-86fc-11eb-8dcd-0242ac130003.json`)
+		.then(res => {
+			console.log(res.data);
+			const {users, invoices } = res.data;
+			console.log(res.data);
+			listInvoice = {
+				titleList : 'Invoice',
+				listItem : [
+					...invoices
+				]
+			}
+			console.log(listInvoice);
+		})
+	}
+
 	let toggle = false;
 	const togglelist = () => {
 		toggle = !toggle;
+		getInvoices()
 	}
 </script>
 
@@ -66,10 +70,6 @@
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 100;
-	}
-
-	h2 {
-		color: blue;
 	}
 
 	@media (min-width: 640px) {
